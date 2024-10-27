@@ -12,7 +12,11 @@ def main():
     running = True
     clock = pygame.time.Clock()
     dt = 0 #delta time
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updateable, drawable)
     p = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
 
     while running:
         # poll for events
@@ -22,11 +26,14 @@ def main():
                 running = False
 
         # fill the screen with a color to wipe away anything from last frame
+        for item in updateable:
+            item.update(dt)
         screen.fill("black")
-        p.update(dt)
 
         # RENDER YOUR GAME HERE
-        p.draw(screen)
+        for item in drawable:
+            item.draw(screen)
+
         # flip() the display to put your work on screen
         pygame.display.flip()
 
