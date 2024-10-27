@@ -1,5 +1,7 @@
 import pygame
-from constants import SCREEN_HEIGHT, SCREEN_WIDTH, ASTEROID_KINDS, ASTEROID_MAX_RADIUS, ASTEROID_MIN_RADIUS, ASTEROID_SPAWN_RATE
+from constants import SCREEN_HEIGHT, SCREEN_WIDTH, ASTEROID_KINDS, ASTEROID_MAX_RADIUS, ASTEROID_MIN_RADIUS, ASTEROID_SPAWN_RATE, PLAYER_RADIUS
+from player import Player
+
 
 def main():
     pygame.init()
@@ -8,6 +10,9 @@ def main():
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
     running = True
+    clock = pygame.time.Clock()
+    dt = 0 #delta time
+    p = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while running:
         # poll for events
@@ -18,11 +23,15 @@ def main():
 
         # fill the screen with a color to wipe away anything from last frame
         screen.fill("black")
+        p.update(dt)
 
         # RENDER YOUR GAME HERE
-
+        p.draw(screen)
         # flip() the display to put your work on screen
         pygame.display.flip()
+
+        deltaMS = clock.tick(60) # 60 fps
+        dt = deltaMS / 1000
 
     pygame.quit()
 
