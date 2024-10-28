@@ -28,7 +28,7 @@ def main():
 
 
     while running:
-        # poll for events
+        # poll for eventsw
         # pygame.QUIT event means the user clicked X to close your window
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -42,6 +42,12 @@ def main():
             if asteroid.collided(p):
                 print('Game over!!')
                 running = False
+
+            for bullet in shots:
+                if asteroid.collided(bullet):
+                    asteroid.split()
+                    bullet.kill()
+
         screen.fill("black")
 
         # RENDER YOUR GAME HERE
