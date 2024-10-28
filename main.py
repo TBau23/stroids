@@ -3,6 +3,7 @@ from constants import SCREEN_HEIGHT, SCREEN_WIDTH, ASTEROID_KINDS, ASTEROID_MAX_
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 
 
 def main():
@@ -17,6 +18,8 @@ def main():
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
+    Shot.containers = (shots, updateable, drawable)
     AsteroidField.containers= (updateable)
     Asteroid.containers = (asteroids, updateable, drawable)
     Player.containers = (updateable, drawable)
@@ -34,6 +37,11 @@ def main():
         # fill the screen with a color to wipe away anything from last frame
         for item in updateable:
             item.update(dt)
+
+        for asteroid in asteroids:
+            if asteroid.collided(p):
+                print('Game over!!')
+                running = False
         screen.fill("black")
 
         # RENDER YOUR GAME HERE
@@ -45,7 +53,6 @@ def main():
 
         deltaMS = clock.tick(60) # 60 fps
         dt = deltaMS / 1000
-
     pygame.quit()
 
 
